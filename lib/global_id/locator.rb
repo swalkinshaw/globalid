@@ -14,7 +14,8 @@ class GlobalID
       #   modules match, +nil+ is returned.
       def locate(gid, options = {})
         if gid = GlobalID.parse(gid)
-          locator_for(gid).locate gid if find_allowed?(gid.model_class, options[:only])
+          model_class = const_defined?(gid.model_name) ? gid.model_class : nil
+          locator_for(gid).locate gid if model_class && find_allowed?(model_class, options[:only])
         end
       end
 
